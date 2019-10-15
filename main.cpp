@@ -4,8 +4,10 @@
 #include <iomanip>
 #include <iterator>
 #include <locale>
+#include <sys/stat.h>
+#include <props.h>
 
-bool file_output = true;
+bool file_output = false;
 bool screen_output = true; 
 
 void msg(std::string msg, std::string file = "logfile")
@@ -30,16 +32,31 @@ long myPow(long x, long p) {
   return x * myPow(x, p-1);
 }
 
-void base_to_n(long number, int base, std::string & current)
-{
-	int i = 0;
-	while ( myPow(base,i+1) <= number ){i++;}
-	current[i] = std::to_string( number / myPow(base,i))[0];
-	if ( i != 0 ){
-		base_to_n(number % myPow(base,i), base, current);
-	}
+void subbase_to_n(long number, int base, std::string & current){
+  int i = 0;
+  while ( myPow(base,i+1) <= number ){i++;}
+  current[i] = std::to_string( number / myPow(base,i))[0];
+  if ( i != 0 ){
+  	subbase_to_n(number % myPow(base,i), base, current);
+  }
 }
 
+void base_to_n(long number, int base_main, int base_side, std::string & main_current, std::string & side_current)
+{
+	long main_number, side_number;
+	side_number = (number % myPow(base_side, side_current.length()));
+	main_number = (number - side_number) / myPow(base_side, side_current.length());
+
+	subbase_to_n(main_number, base_main, main_current);
+	subbase_to_n(side_number, base_side, side_current);
+}
+
+bool is_number(const std::string& s)
+{
+    std::string::const_iterator it = s.begin();
+    while (it != s.end() && std::isdigit(*it)) ++it;
+    return !s.empty() && it == s.end();
+}
 //// ///////// /////
 
 int main(){
@@ -70,15 +87,25 @@ int main(){
 	threshold_clash = stod(a);
 	std::cout << "Heavy atom clash = " << threshold_clash << std::endl;
 
-	std::cout << "Enter number of rotations per bond (<10)" << std::endl;
+	std::cout << "Enter number of main-chain rotations per bond" << std::endl;
 	do {
 		std::cin >> a;
 		std::locale loc;
-		if ( std::isdigit(a[0],loc)) {break;}
+		if ( is_number(a)) {break;}
 		std::cout << "NaN! Try again..." << std::endl;
 	} while (true);
 
-	long no_rotations = stoi(a);
+	long no_main_rotations = stoi(a);
+
+	std::cout << "Enter number of side-chain rotations per bond" << std::endl;
+	do {
+		std::cin >> a;
+		std::locale loc;
+		if ( is_number(a)) {break;}
+		std::cout << "NaN! Try again..." << std::endl;
+	} while (true);
+
+	long no_side_rotations = stoi(a);
 		
 	std::cout << "Enter residue starting from N-end" << std::endl;
 	
@@ -100,6 +127,11 @@ int main(){
 	junction = newres[res_index]->GenAll(junction);
 	newres[res_index]->NameMe();
 	
+	std::string dirname = "";
+	for ( std::vector<Residue*>::iterator it = newres.begin(); it != newres.end(); it++ ){ dirname = dirname + (*it)->res1; };
+
+	int errnum = mkdir(dirname.c_str(), 0744);
+        if ( errnum != 0 && ! props::file_exists(dirname) ){ std::cout << "SUBMITTER: Unable to create dir " + dirname << std::endl; return 1;}
 
 	/*/ Childrenify
 
@@ -118,32 +150,55 @@ int main(){
 	//*/
 
 
-	long total_rotatory_bonds = 0;
-	for (std::vector<Residue*>::iterator it = newres.begin(); it != newres.end(); it++){total_rotatory_bonds += (*it)->rotatory_bonds;}
+	long total_main_rotatory_bonds = 0;
+	long total_side_rotatory_bonds = 0;
+	for (std::vector<Residue*>::iterator it = newres.begin(); it != newres.end(); it++){
+          total_main_rotatory_bonds += (*it)->main_rotatory_bonds;
+          total_side_rotatory_bonds += (*it)->side_rotatory_bonds;
+        }
 	
 	// Prepare a vector of pointers to atoms that are rotatory
-	std::vector<Atom*> final_rotatory_combination;
+	std::vector<Atom*> final_main_rotatory_combination;
+	std::vector<Atom*> final_side_rotatory_combination;
 
 	for (std::vector<Residue*>::iterator it = newres.begin(); it != newres.end(); it++)
 	{
-		final_rotatory_combination.insert(final_rotatory_combination.end(), (*it)->rotatory_atoms.begin(), (*it)->rotatory_atoms.end()); 
+		for(std::vector<Atom*>::iterator it_a = (*it)->main_rotatory_atoms.begin(); it_a != (*it)->main_rotatory_atoms.end(); it_a++){
+			(*it_a)->rotations = no_main_rotations;
+		}	
+		final_main_rotatory_combination.insert(final_main_rotatory_combination.end(), (*it)->main_rotatory_atoms.begin(), (*it)->main_rotatory_atoms.end()); 
 	}
 
-	long  total_combinations = myPow(no_rotations, total_rotatory_bonds); // cap rotations?
+	for (std::vector<Residue*>::iterator it = newres.begin(); it != newres.end(); it++)
+	{
+		for(std::vector<Atom*>::iterator it_a = (*it)->side_rotatory_atoms.begin(); it_a != (*it)->side_rotatory_atoms.end(); it_a++){
+			(*it_a)->rotations = no_side_rotations;
+		}	
+		final_side_rotatory_combination.insert(final_side_rotatory_combination.end(), (*it)->side_rotatory_atoms.begin(), (*it)->side_rotatory_atoms.end()); 
+	}
+////////////////////
+
+
+	long  total_combinations = myPow(no_main_rotations, total_main_rotatory_bonds) * myPow(no_side_rotations, total_side_rotatory_bonds); // cap rotations?
 	std::cout << "Total number of conformers: " << total_combinations << std::endl;
 
 	long not_discarded = 0;
 	for (long  ii = 0; ii < total_combinations; ii++)
 	{
 		// Translate ii to a string of indices that define dihedrals of rotatory atoms (changing an index produces a different rotation and that's how we get conformers)
-		std::string s (total_rotatory_bonds, '0'); // cap rotations?
+		std::string s_main (total_main_rotatory_bonds, '0'); // cap rotations?
+		std::string s_side (total_side_rotatory_bonds, '0'); // cap rotations?
 	
-		base_to_n(ii,no_rotations,s);
+		base_to_n(ii,no_main_rotations,no_side_rotations,s_main,s_side);
 
 //		final_rotatory_combination[0]->rotatory_index = 1; // to avoid clash of non-rotating cap
-		for (int j = 0; j <= total_rotatory_bonds - 0; j++) // start with second, end with penultimate - i.e. do not rotate caps
+		for (int j = 0; j < total_main_rotatory_bonds - 0; j++) // start with second, end with penultimate - i.e. do not rotate caps
 		{
-			final_rotatory_combination[j]->rotatory_index = s[j] - '0';
+			final_main_rotatory_combination[j]->rotatory_index = s_main[j] - '0';
+		}
+		for (int j = 0; j < total_side_rotatory_bonds - 0; j++) // start with second, end with penultimate - i.e. do not rotate caps
+		{
+			final_side_rotatory_combination[j]->rotatory_index = s_side[j] - '0';
 		}
 
 		// Generate a conformer
@@ -154,7 +209,7 @@ int main(){
 			for (std::vector<Atom>::iterator it2 = newres[i]->atoms.begin(); it2 != newres[i]->atoms.end(); it2++)
 			{
 				atomid++;
-				if (it2->genme){it2->GenMe(no_rotations);} // b_angle je nepouzivane + je false by default! always false?!
+				if (it2->genme){it2->GenMe();} // b_angle je nepouzivane + je false by default! always false?!
 			}
 		}
 
@@ -203,7 +258,7 @@ int main(){
 		ss << not_discarded;
 
 		// Print a conformer
-		std::string filename = "./coords/pdb" + s;
+		std::string filename = "./" + dirname + "/" + dirname + "_" + s_main + "_" + s_side;
 		not_discarded++;
 		std::ofstream myofile;
 		myofile.open(filename);

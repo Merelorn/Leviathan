@@ -13,12 +13,14 @@ public:
 
 	virtual void operator= (const Atom & rhs);
 	void PrintMe(std::ofstream & myofile, int atomid, std::string resname, int resid);
-	bool GenMe(int rotations);
-	void MakeBasis(Eigen::Vector3d plane, Eigen::Vector3d parent_in_plane, Eigen::Vector3d & b1, Eigen::Vector3d & b2, double rotation, int rotations);
+	bool GenMe();
+	void MakeBasis();
 
 	double bond_length, angle, dihedral;
 	bool genme, rotatory; //genme is universally true except for the first methyl group
 	int rotatory_index;
+        int rotations;
+	Eigen::Vector3d plane, to_define_plane;
 	std::string type, pdb_type;
 	Atom * parent, * plane_def;
 	Eigen::Vector3d coordinates, b1, b2;
@@ -64,11 +66,21 @@ public:
 	SG(Atom * parent, double dihedral = 0);
 };
 
+class SM : public sp3
+{
+public:
+	SM(Atom * parent, double dihedral = 0);
+};
 
 class C : public sp2
 {
 public:
 	C(Atom * parent, double dihedral = 0);
+};
+class CR : public sp2
+{
+public:
+	CR(Atom * parent, double dihedral = 0);
 };
 class O : public sp2
 {
@@ -94,8 +106,9 @@ public:
 	
 	Atom * junction;
 	std::vector<Atom> atoms;
-	std::vector<Atom*> rotatory_atoms;
-	int rotatory_bonds;
+	std::vector<Atom*> main_rotatory_atoms, side_rotatory_atoms;
+	int main_rotatory_bonds, side_rotatory_bonds;
 	std::string resname;
+	std::string res1;
 	int resid;
 };

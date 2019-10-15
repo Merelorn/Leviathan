@@ -14,6 +14,9 @@ void Atom::operator=(const Atom & rhs)
 	dihedral = rhs.dihedral;
 	rotatory = rhs.rotatory;
 	rotatory_index = rhs.rotatory_index;
+	rotations = rhs.rotations;
+	plane = rhs.plane;
+	to_define_plane = rhs.to_define_plane;
 	type = rhs.type;
 	genme = rhs.genme;
 	parent = rhs.parent;
@@ -35,8 +38,8 @@ void Atom::PrintMe(std::ofstream & myofile, int atomid, std::string resname, int
     myofile << "ATOM";
 	myofile.width(7); myofile << atomid;
 	myofile << "  ";
-	myofile.width(3); myofile << pdb_type;
-	myofile << " ";
+	myofile.width(4); myofile << std::left << pdb_type << std::right;
+//	myofile << " ";
 	myofile.width(3); myofile << resname;
 	myofile.width(6); myofile << resid;
 	myofile << "    ";
@@ -50,7 +53,7 @@ void Atom::PrintMe(std::ofstream & myofile, int atomid, std::string resname, int
 	myofile << std::endl;
 }
 
-bool Atom::GenMe(int rotations)
+bool Atom::GenMe()
 {
 //	if ( b_angle && parent->parent == NULL ){return false;}
 //	if ( b_dihedral && parent->parent->parent == NULL ){return false;}	// does not work?!!?!
@@ -67,24 +70,24 @@ bool Atom::GenMe(int rotations)
 	coordinates *= bond_length;
 	coordinates += parent->coordinates;
 
-	Eigen::Vector3d plane, to_define_plane;
 	plane = parent->coordinates - coordinates;
 	to_define_plane = plane;
+	to_define_plane = parent->parent->coordinates - parent->coordinates;
+
+	MakeBasis();
 
 //	if ( parent->parent != NULL ){
-		to_define_plane = parent->parent->coordinates - parent->coordinates;
 /*		if ( parent->plane_def != NULL ){
 			to_define_plane = parent->plane_def->coordinates - parent->coordinates;
 		}
 /*
 	} else
 */
-	MakeBasis(plane,to_define_plane,b1,b2,rotatory_index,rotations);
 
 	return true;
 }
 
-void Atom::MakeBasis(Eigen::Vector3d plane, Eigen::Vector3d to_define_plane, Eigen::Vector3d & b1, Eigen::Vector3d & b2,double rotation, int rotations){
+void Atom::MakeBasis(){
 
 	Eigen::Vector3d bb1,bb2;
 
@@ -97,7 +100,7 @@ void Atom::MakeBasis(Eigen::Vector3d plane, Eigen::Vector3d to_define_plane, Eig
 	bb1.normalize();
 	bb2.normalize();
 
-	rotation = 2 * M_PI * rotation / rotations;
+	double rotation = 2 * M_PI * rotatory_index / rotations;
 
 	b1 = cos(rotation) * bb1 + sin(rotation) * bb2;
 	b2 = -sin(rotation) * bb1 + cos(rotation) * bb2;
@@ -114,7 +117,9 @@ sp2::sp2(Atom * parent, double dihedral) : Atom(parent, (120 * M_PI / 180), dihe
 CA::CA(Atom * parent, double dihedral) : sp3(parent, dihedral){bond_length = 1.5; type="C"; };
 H::H(Atom * parent, double dihedral) : sp3(parent, dihedral){bond_length = 1.0; type="H"; };
 C::C(Atom * parent, double dihedral) : sp2(parent, dihedral){bond_length = 1.5; type="C"; };
+CR::CR(Atom * parent, double dihedral) : sp2(parent, dihedral){bond_length = 1.35; type="C"; };
 O::O(Atom * parent, double dihedral) : sp2(parent, dihedral){bond_length = 1.4; type="O"; };
 N::N(Atom * parent, double dihedral) : sp2(parent, dihedral){bond_length = 1.4; type="N"; };
 NZ::NZ(Atom * parent, double dihedral) : sp3(parent, dihedral){bond_length = 1.5; type="N"; };
 SG::SG(Atom * parent, double dihedral) : sp3(parent, dihedral){bond_length = 1.8; type="S"; };
+SM::SM(Atom * parent, double dihedral) : sp3(parent, dihedral){bond_length = 1.8; type="S"; };
