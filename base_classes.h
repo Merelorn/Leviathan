@@ -98,7 +98,7 @@ public:
 class Residue
 {
 public:
-	Residue(){};
+	Residue(){side_rotatory_bonds_2 = 0;};
 	virtual Residue * Spawn(){return this;};
 	virtual Atom* GenAll(Atom * junction){return new Atom;};
 	virtual void NameMe(){};
@@ -106,8 +106,8 @@ public:
 	
 	Atom * junction;
 	std::vector<Atom> atoms;
-	std::vector<Atom*> main_rotatory_atoms, side_rotatory_atoms;
-	int main_rotatory_bonds, side_rotatory_bonds;
+	std::vector<Atom*> main_rotatory_atoms, side_rotatory_atoms_1, side_rotatory_atoms_2;
+	int main_rotatory_bonds, side_rotatory_bonds_1, side_rotatory_bonds_2;
 	std::string resname;
 	std::string res1;
 	int resid;

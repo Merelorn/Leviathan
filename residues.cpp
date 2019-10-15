@@ -5,7 +5,7 @@ class Ccap0 : public Residue
 {
 public:
 
-	Ccap0(){std::vector<Atom> dummy(6,Atom()); atoms = dummy;side_rotatory_bonds = 0; main_rotatory_bonds = 0;resname = "CAP";res1 = "";}
+	Ccap0(){std::vector<Atom> dummy(6,Atom()); atoms = dummy;side_rotatory_bonds_1 = 0; main_rotatory_bonds = 0;resname = "CAP";res1 = "";}
 
 	Atom* GenAll(Atom * junction_atom)
 	{
@@ -57,7 +57,7 @@ class A2 : public Residue
 {
 public:
 
-	A2(){std::vector<Atom> dummy(10,Atom()); atoms = dummy; side_rotatory_bonds = 0; main_rotatory_bonds = 2;resname = "ALA";res1 = "A";}
+	A2(){std::vector<Atom> dummy(10,Atom()); atoms = dummy; side_rotatory_bonds_1 = 0; main_rotatory_bonds = 2;resname = "ALA";res1 = "A";}
 	Residue* Spawn(){return new A2;}
 
 	Atom* GenAll(Atom * junction_atom)
@@ -98,7 +98,7 @@ class C3 : public Residue
 {
 public:
 
-	C3(){std::vector<Atom> dummy(11,Atom()); atoms = dummy;side_rotatory_bonds = 1;main_rotatory_bonds = 2;resname = "CYS";res1 = "C";}
+	C3(){std::vector<Atom> dummy(11,Atom()); atoms = dummy;side_rotatory_bonds_1 = 1;main_rotatory_bonds = 2;resname = "CYS";res1 = "C";}
 	Residue* Spawn(){return new C3;}
 
 		Atom* GenAll(Atom * junction_atom)
@@ -108,7 +108,7 @@ public:
 		atoms[2] = CA(&atoms[0],0.d);	main_rotatory_atoms.push_back(&atoms[2]); // trans
 		atoms[3] = H(&atoms[2],180.d);
 
-		atoms[4] = CA(&atoms[2],300.d);	side_rotatory_atoms.push_back(&atoms[4]); //CB
+		atoms[4] = CA(&atoms[2],300.d);	side_rotatory_atoms_1.push_back(&atoms[4]); //CB
 		atoms[5] = H(&atoms[4],0.d);
 		atoms[6] = H(&atoms[4],120.d);
 		
@@ -140,7 +140,7 @@ class D4 : public Residue
 {
 public:
 
-	D4(){std::vector<Atom> dummy(12,Atom()); atoms = dummy;main_rotatory_bonds = 2;side_rotatory_bonds=2;resname = "ASP";res1 = "D";}
+	D4(){std::vector<Atom> dummy(12,Atom()); atoms = dummy;main_rotatory_bonds = 2;side_rotatory_bonds_1 = 1;side_rotatory_bonds_2 = 1;resname = "ASP";res1 = "D";}
 	Residue* Spawn(){return new D4;}
 
 	Atom* GenAll(Atom * junction_atom)
@@ -150,11 +150,11 @@ public:
 		atoms[2] = CA(&atoms[0],0.d);	main_rotatory_atoms.push_back(&atoms[2]); // trans
 		atoms[3] = H(&atoms[2],180.d);
 
-		atoms[4] = CA(&atoms[2],300.d);	side_rotatory_atoms.push_back(&atoms[4]);	//CB
+		atoms[4] = CA(&atoms[2],300.d);	side_rotatory_atoms_1.push_back(&atoms[4]);	//CB
 		atoms[5] = H(&atoms[4],0.d);
 		atoms[6] = H(&atoms[4],120.d);
 
-		atoms[7] = C(&atoms[4],240.d);	side_rotatory_atoms.push_back(&atoms[7]);	//CD
+		atoms[7] = C(&atoms[4],240.d);	side_rotatory_atoms_2.push_back(&atoms[7]);	//CD
 		atoms[8] = O(&atoms[7],0.d); atoms[7].plane_def = &atoms[8];
 		atoms[9] = O(&atoms[7],180.d);
 
@@ -184,7 +184,7 @@ class E5 : public Residue
 {
 public:
 
-	E5(){std::vector<Atom> dummy(15,Atom()); atoms = dummy;main_rotatory_bonds = 2;side_rotatory_bonds=3;resname = "GLU";res1 = "E";}
+	E5(){std::vector<Atom> dummy(15,Atom()); atoms = dummy;main_rotatory_bonds = 2;side_rotatory_bonds_1=3;resname = "GLU";res1 = "E";}
 	Residue* Spawn(){return new E5;}
 
 	Atom* GenAll(Atom * junction_atom)
@@ -194,15 +194,15 @@ public:
 		atoms[2] = CA(&atoms[0],0.d);	main_rotatory_atoms.push_back(&atoms[2]); // trans
 		atoms[3] = H(&atoms[2],180.d);
 
-		atoms[4] = CA(&atoms[2],300.d);	side_rotatory_atoms.push_back(&atoms[4]);	//CB
+		atoms[4] = CA(&atoms[2],300.d);	side_rotatory_atoms_1.push_back(&atoms[4]);	//CB
 		atoms[5] = H(&atoms[4],0.d);
 		atoms[6] = H(&atoms[4],120.d);
 
-		atoms[7] = CA(&atoms[4],240.d);	side_rotatory_atoms.push_back(&atoms[7]);	//CG
+		atoms[7] = CA(&atoms[4],240.d);	side_rotatory_atoms_1.push_back(&atoms[7]);	//CG
 		atoms[8] = H(&atoms[7],0.d);
 		atoms[9] = H(&atoms[7],120.d);
 
-		atoms[10] = C(&atoms[7],240.d);	side_rotatory_atoms.push_back(&atoms[10]);	//CD
+		atoms[10] = C(&atoms[7],240.d);	side_rotatory_atoms_1.push_back(&atoms[10]);	//CD
 		atoms[11] = O(&atoms[10],0.d); atoms[10].plane_def = &atoms[11];
 		atoms[12] = O(&atoms[10],180.d);
 
@@ -235,7 +235,7 @@ class F4 : public Residue
 {
 public:
 
-	F4(){std::vector<Atom> dummy(20,Atom()); atoms = dummy;main_rotatory_bonds = 2;side_rotatory_bonds=2;resname = "PHE";res1 = "F";}
+	F4(){std::vector<Atom> dummy(20,Atom()); atoms = dummy;main_rotatory_bonds = 2;side_rotatory_bonds_1=2;resname = "PHE";res1 = "F";}
 	Residue* Spawn(){return new F4;}
 
 	Atom* GenAll(Atom * junction_atom)
@@ -245,13 +245,13 @@ public:
 		atoms[2] = CA(&atoms[0],0.d);	main_rotatory_atoms.push_back(&atoms[2]); // trans
 		atoms[3] = H(&atoms[2],180.d);
 
-		atoms[4] = CA(&atoms[2],300.d);	side_rotatory_atoms.push_back(&atoms[4]);	//CB
+		atoms[4] = CA(&atoms[2],300.d);	side_rotatory_atoms_1.push_back(&atoms[4]);	//CB
 		atoms[5] = H(&atoms[4],0.d);
 		atoms[6] = H(&atoms[4],120.d);
 
 		//aromatic_plane.coordinates = atoms[5]-atoms[4] + atoms[6]-atoms[4];
 
-		atoms[7] = C(&atoms[4],240.d);	atoms[7].plane_def = atoms[7].parent;		side_rotatory_atoms.push_back(&atoms[7]);	//CG
+		atoms[7] = C(&atoms[4],240.d);	atoms[7].plane_def = atoms[7].parent;		side_rotatory_atoms_1.push_back(&atoms[7]);	//CG
 		atoms[8] = C(&atoms[7],0.d);		atoms[8].plane_def = atoms[8].parent;		//CD
 		atoms[9] = C(&atoms[7],180.d);	atoms[9].plane_def = atoms[9].parent;		//CD
 
@@ -306,7 +306,7 @@ class G2 : public Residue
 {
 public:
 
-	G2(){std::vector<Atom> dummy(7,Atom()); atoms = dummy;main_rotatory_bonds = 2;side_rotatory_bonds=0;resname = "GLY";res1 = "G";}
+	G2(){std::vector<Atom> dummy(7,Atom()); atoms = dummy;main_rotatory_bonds = 2;side_rotatory_bonds_1=0;resname = "GLY";res1 = "G";}
 	Residue* Spawn(){return new G2;}
 
 	Atom* GenAll(Atom * junction_atom)
@@ -338,7 +338,7 @@ class H4 : public Residue
 {
 public:
 
-	H4(){std::vector<Atom> dummy(17,Atom()); atoms = dummy;main_rotatory_bonds = 2;side_rotatory_bonds=2;resname = "HIS";res1 = "H";}
+	H4(){std::vector<Atom> dummy(17,Atom()); atoms = dummy;main_rotatory_bonds = 2;side_rotatory_bonds_1=2;resname = "HIS";res1 = "H";}
 	Residue* Spawn(){return new H4;}
 
 	Atom* GenAll(Atom * junction_atom)
@@ -348,11 +348,11 @@ public:
 		atoms[2] = CA(&atoms[0],0.d);	main_rotatory_atoms.push_back(&atoms[2]); // trans
 		atoms[3] = H(&atoms[2],180.d);
 
-		atoms[4] = CA(&atoms[2],300.d);	side_rotatory_atoms.push_back(&atoms[4]);	//CB
+		atoms[4] = CA(&atoms[2],300.d);	side_rotatory_atoms_1.push_back(&atoms[4]);	//CB
 		atoms[5] = H(&atoms[4],0.d);
 		atoms[6] = H(&atoms[4],120.d);
 
-		atoms[7] = C(&atoms[4],240.d);	atoms[7].plane_def = atoms[7].parent;	atoms[7].angle = (126 * M_PI / 180.d);	side_rotatory_atoms.push_back(&atoms[7]);		//CG
+		atoms[7] = C(&atoms[4],240.d);	atoms[7].plane_def = atoms[7].parent;	atoms[7].angle = (126 * M_PI / 180.d);	side_rotatory_atoms_1.push_back(&atoms[7]);		//CG
 		atoms[8] = N(&atoms[7],0.d);		atoms[8].plane_def = atoms[8].parent;	atoms[8].angle = (117 * M_PI / 180.d);		//ND
 		atoms[9] = C(&atoms[7],180.d);	atoms[9].plane_def = atoms[9].parent;	atoms[9].angle = (117 * M_PI / 180);		//CD
 
@@ -398,7 +398,7 @@ class I4 : public Residue
 {
 public:
 
-	I4(){std::vector<Atom> dummy(19,Atom()); atoms = dummy;main_rotatory_bonds = 2;side_rotatory_bonds=2;resname = "ILE";res1 = "I";}
+	I4(){std::vector<Atom> dummy(19,Atom()); atoms = dummy;main_rotatory_bonds = 2;side_rotatory_bonds_1=2;resname = "ILE";res1 = "I";}
 	Residue* Spawn(){return new I4;}
 
 	Atom* GenAll(Atom * junction_atom)
@@ -408,10 +408,10 @@ public:
 		atoms[2] = CA(&atoms[0],0.d);	main_rotatory_atoms.push_back(&atoms[2]); // trans
 		atoms[3] = H(&atoms[2],180.d);
 
-		atoms[4] = CA(&atoms[2],300.d);	side_rotatory_atoms.push_back(&atoms[4]);	//CB
+		atoms[4] = CA(&atoms[2],300.d);	side_rotatory_atoms_1.push_back(&atoms[4]);	//CB
 		atoms[5] = H(&atoms[4],0.d);
 
-		atoms[6] = CA(&atoms[4],240.d);	side_rotatory_atoms.push_back(&atoms[6]);	//CG
+		atoms[6] = CA(&atoms[4],240.d);	side_rotatory_atoms_1.push_back(&atoms[6]);	//CG
 		atoms[7] = H(&atoms[6],0.d);
 		atoms[8] = H(&atoms[6],120.d);
 
@@ -458,7 +458,7 @@ class K6 : public Residue
 {
 public:
 
-	K6(){std::vector<Atom> dummy(22,Atom()); atoms = dummy;main_rotatory_bonds = 2;side_rotatory_bonds=4;resname = "LYS";res1 = "K";}
+	K6(){std::vector<Atom> dummy(22,Atom()); atoms = dummy;main_rotatory_bonds = 2;side_rotatory_bonds_1=4;resname = "LYS";res1 = "K";}
 	Residue* Spawn(){return new K6;}
 
 	Atom* GenAll(Atom * junction_atom)
@@ -468,21 +468,21 @@ public:
 		atoms[2] = CA(&atoms[0],0.d);	main_rotatory_atoms.push_back(&atoms[2]); // trans
 		atoms[3] = H(&atoms[2],180.d);
 
-		atoms[4] = CA(&atoms[2],300.d);	side_rotatory_atoms.push_back(&atoms[4]);	//CB
+		atoms[4] = CA(&atoms[2],300.d);	side_rotatory_atoms_1.push_back(&atoms[4]);	//CB
 		//atoms[19] = C(&atoms[2],300.d);
 		//atoms[20] = O(&atoms[19],0
 		atoms[5] = H(&atoms[4],0.d);
 		atoms[6] = H(&atoms[4],120.d);
 
-		atoms[7] = CA(&atoms[4],240.d);	side_rotatory_atoms.push_back(&atoms[7]);	//CG
+		atoms[7] = CA(&atoms[4],240.d);	side_rotatory_atoms_1.push_back(&atoms[7]);	//CG
 		atoms[8] = H(&atoms[7],0.d);
 		atoms[9] = H(&atoms[7],120.d);
 
-		atoms[10] = CA(&atoms[7],240.d);	side_rotatory_atoms.push_back(&atoms[10]);	//CD
+		atoms[10] = CA(&atoms[7],240.d);	side_rotatory_atoms_1.push_back(&atoms[10]);	//CD
 		atoms[11] = H(&atoms[10],0.d);
 		atoms[12] = H(&atoms[10],120.d);
 
-		atoms[13] = CA(&atoms[10],240.d);	side_rotatory_atoms.push_back(&atoms[13]);	//CE
+		atoms[13] = CA(&atoms[10],240.d);	side_rotatory_atoms_1.push_back(&atoms[13]);	//CE
 		atoms[14] = H(&atoms[13],0.d);
 		atoms[15] = H(&atoms[13],120.d);
 
@@ -527,7 +527,7 @@ class L4 : public Residue
 {
 public:
 
-	L4(){std::vector<Atom> dummy(19,Atom()); atoms = dummy;main_rotatory_bonds = 2;side_rotatory_bonds=2;resname = "LEU";res1 = "L";}
+	L4(){std::vector<Atom> dummy(19,Atom()); atoms = dummy;main_rotatory_bonds = 2;side_rotatory_bonds_1=2;resname = "LEU";res1 = "L";}
 	Residue* Spawn(){return new L4;}
 
 	Atom* GenAll(Atom * junction_atom)
@@ -537,11 +537,11 @@ public:
 		atoms[2] = CA(&atoms[0],0.d);	main_rotatory_atoms.push_back(&atoms[2]); // trans
 		atoms[3] = H(&atoms[2],180.d);
 
-		atoms[4] = CA(&atoms[2],300.d);	side_rotatory_atoms.push_back(&atoms[4]);	//CB
+		atoms[4] = CA(&atoms[2],300.d);	side_rotatory_atoms_1.push_back(&atoms[4]);	//CB
 		atoms[5] = H(&atoms[4],0.d);
 		atoms[6] = H(&atoms[4],120.d);
 
-		atoms[7] = CA(&atoms[4],240.d);	side_rotatory_atoms.push_back(&atoms[7]);	//CG
+		atoms[7] = CA(&atoms[4],240.d);	side_rotatory_atoms_1.push_back(&atoms[7]);	//CG
 		atoms[8] = H(&atoms[7],0.d);
 
 		atoms[9] = CA(&atoms[7],120.d);	//CD
@@ -587,7 +587,7 @@ class M5 : public Residue
 {
 public:
 
-	M5(){std::vector<Atom> dummy(17,Atom()); atoms = dummy;main_rotatory_bonds = 2;side_rotatory_bonds=3;resname = "MET";res1 = "M";}
+	M5(){std::vector<Atom> dummy(17,Atom()); atoms = dummy;main_rotatory_bonds = 2;side_rotatory_bonds_1=3;resname = "MET";res1 = "M";}
 	Residue* Spawn(){return new M5;}
 
 	Atom* GenAll(Atom * junction_atom)
@@ -597,15 +597,15 @@ public:
 		atoms[2] = CA(&atoms[0],0.d);	main_rotatory_atoms.push_back(&atoms[2]); // trans
 		atoms[3] = H(&atoms[2],180.d);
 
-		atoms[4] = CA(&atoms[2],300.d);	side_rotatory_atoms.push_back(&atoms[4]);	//CB
+		atoms[4] = CA(&atoms[2],300.d);	side_rotatory_atoms_1.push_back(&atoms[4]);	//CB
 		atoms[5] = H(&atoms[4],0.d);
 		atoms[6] = H(&atoms[4],120.d);
 
-		atoms[7] = CA(&atoms[4],240.d);	side_rotatory_atoms.push_back(&atoms[7]);	//CG
+		atoms[7] = CA(&atoms[4],240.d);	side_rotatory_atoms_1.push_back(&atoms[7]);	//CG
 		atoms[8] = H(&atoms[7],0.d);
 		atoms[9] = H(&atoms[7],120.d);
 
-		atoms[10] = SM(&atoms[7],240.d);	side_rotatory_atoms.push_back(&atoms[10]);	//SD
+		atoms[10] = SM(&atoms[7],240.d);	side_rotatory_atoms_1.push_back(&atoms[10]);	//SD
 
 		atoms[11] = CA(&atoms[10],0.d);		//CE
 		atoms[12] = H(&atoms[11],0.d);
@@ -643,7 +643,7 @@ class N4 : public Residue
 {
 public:
 
-	N4(){std::vector<Atom> dummy(14,Atom()); atoms = dummy;main_rotatory_bonds = 2;side_rotatory_bonds = 2;resname = "ASN";res1 = "N";}
+	N4(){std::vector<Atom> dummy(14,Atom()); atoms = dummy;main_rotatory_bonds = 2;side_rotatory_bonds_1 = 2;resname = "ASN";res1 = "N";}
 	Residue* Spawn(){return new N4;}
 
 	Atom* GenAll(Atom * junction_atom)
@@ -653,11 +653,11 @@ public:
 		atoms[2] = CA(&atoms[0],0.d);	main_rotatory_atoms.push_back(&atoms[2]); // trans
 		atoms[3] = H(&atoms[2],180.d);
 
-		atoms[4] = CA(&atoms[2],300.d);	side_rotatory_atoms.push_back(&atoms[4]);	//CB
+		atoms[4] = CA(&atoms[2],300.d);	side_rotatory_atoms_1.push_back(&atoms[4]);	//CB
 		atoms[5] = H(&atoms[4],0.d);
 		atoms[6] = H(&atoms[4],120.d);
 
-		atoms[7] = C(&atoms[4],240.d);	side_rotatory_atoms.push_back(&atoms[7]);	//CD
+		atoms[7] = C(&atoms[4],240.d);	side_rotatory_atoms_1.push_back(&atoms[7]);	//CD
 		atoms[8] = O(&atoms[7],0.d); atoms[7].plane_def = &atoms[8];
 		atoms[9] = N(&atoms[7],180.d);
 		atoms[10] = H(&atoms[9],0.d);
@@ -691,7 +691,7 @@ class O5 : public Residue
 {
 public:
 
-	O5(){std::vector<Atom> dummy(19,Atom()); atoms = dummy;main_rotatory_bonds = 2;side_rotatory_bonds = 3;resname = "ORN";res1 = "O";}
+	O5(){std::vector<Atom> dummy(19,Atom()); atoms = dummy;main_rotatory_bonds = 2;side_rotatory_bonds_1 = 3;resname = "ORN";res1 = "O";}
 	Residue* Spawn(){return new O5;}
 
 	Atom* GenAll(Atom * junction_atom)
@@ -701,17 +701,17 @@ public:
 		atoms[2] = CA(&atoms[0],0.d);	main_rotatory_atoms.push_back(&atoms[2]); // trans
 		atoms[3] = H(&atoms[2],180.d);
 
-		atoms[4] = CA(&atoms[2],300.d);	side_rotatory_atoms.push_back(&atoms[4]);	//CB
+		atoms[4] = CA(&atoms[2],300.d);	side_rotatory_atoms_1.push_back(&atoms[4]);	//CB
 		//atoms[19] = C(&atoms[2],300.d);
 		//atoms[20] = O(&atoms[19],0
 		atoms[5] = H(&atoms[4],0.d);
 		atoms[6] = H(&atoms[4],120.d);
 
-		atoms[7] = CA(&atoms[4],240.d);	side_rotatory_atoms.push_back(&atoms[7]);	//CG
+		atoms[7] = CA(&atoms[4],240.d);	side_rotatory_atoms_1.push_back(&atoms[7]);	//CG
 		atoms[8] = H(&atoms[7],0.d);
 		atoms[9] = H(&atoms[7],120.d);
 
-		atoms[10] = CA(&atoms[7],240.d);	side_rotatory_atoms.push_back(&atoms[10]);	//CD
+		atoms[10] = CA(&atoms[7],240.d);	side_rotatory_atoms_1.push_back(&atoms[10]);	//CD
 		atoms[11] = H(&atoms[10],0.d);
 		atoms[12] = H(&atoms[10],120.d);
 
@@ -753,7 +753,7 @@ class P1 : public Residue
 {
 public:
 
-	P1(){std::vector<Atom> dummy(14,Atom()); atoms = dummy;main_rotatory_bonds = 1;side_rotatory_bonds=0;resname = "PRO";res1 = "P";}
+	P1(){std::vector<Atom> dummy(14,Atom()); atoms = dummy;main_rotatory_bonds = 1;side_rotatory_bonds_1=0;resname = "PRO";res1 = "P";}
 	Residue* Spawn(){return new P1;}
 
 	Atom* GenAll(Atom * junction_atom)
@@ -805,7 +805,7 @@ class Q5 : public Residue
 {
 public:
 
-	Q5(){std::vector<Atom> dummy(17,Atom()); atoms = dummy;main_rotatory_bonds = 2;side_rotatory_bonds = 3;resname = "GLN";res1 = "Q";}
+	Q5(){std::vector<Atom> dummy(17,Atom()); atoms = dummy;main_rotatory_bonds = 2;side_rotatory_bonds_1 = 3;resname = "GLN";res1 = "Q";}
 	Residue* Spawn(){return new Q5;}
 
 	Atom* GenAll(Atom * junction_atom)
@@ -815,15 +815,15 @@ public:
 		atoms[2] = CA(&atoms[0],0.d);	main_rotatory_atoms.push_back(&atoms[2]); // trans
 		atoms[3] = H(&atoms[2],180.d);
 
-		atoms[4] = CA(&atoms[2],300.d);	side_rotatory_atoms.push_back(&atoms[4]);	//CB
+		atoms[4] = CA(&atoms[2],300.d);	side_rotatory_atoms_1.push_back(&atoms[4]);	//CB
 		atoms[5] = H(&atoms[4],0.d);
 		atoms[6] = H(&atoms[4],120.d);
 
-		atoms[7] = CA(&atoms[4],240.d);	side_rotatory_atoms.push_back(&atoms[7]);	//CG
+		atoms[7] = CA(&atoms[4],240.d);	side_rotatory_atoms_1.push_back(&atoms[7]);	//CG
 		atoms[8] = H(&atoms[7],0.d);
 		atoms[9] = H(&atoms[7],120.d);
 
-		atoms[10] = C(&atoms[7],240.d);	side_rotatory_atoms.push_back(&atoms[10]);	//CD
+		atoms[10] = C(&atoms[7],240.d);	side_rotatory_atoms_1.push_back(&atoms[10]);	//CD
 		atoms[11] = O(&atoms[10],0.d); atoms[10].plane_def = &atoms[11];
 		atoms[12] = N(&atoms[10],180.d);
 		atoms[13] = H(&atoms[12],0.d);
@@ -860,7 +860,7 @@ class R6: public Residue
 {
 public:
 
-	R6(){std::vector<Atom> dummy(24,Atom()); atoms = dummy;main_rotatory_bonds = 2;side_rotatory_bonds = 4;resname = "ARG";res1 = "R";}
+	R6(){std::vector<Atom> dummy(24,Atom()); atoms = dummy;main_rotatory_bonds = 2;side_rotatory_bonds_1 = 4;resname = "ARG";res1 = "R";}
 	Residue* Spawn(){return new R6;}
 
 	Atom* GenAll(Atom * junction_atom)
@@ -870,19 +870,19 @@ public:
 		atoms[2] = CA(&atoms[0],0.d);	main_rotatory_atoms.push_back(&atoms[2]); // trans
 		atoms[3] = H(&atoms[2],180.d);
 
-		atoms[4] = CA(&atoms[2],300.d);	side_rotatory_atoms.push_back(&atoms[4]);	//CB
+		atoms[4] = CA(&atoms[2],300.d);	side_rotatory_atoms_1.push_back(&atoms[4]);	//CB
 		atoms[5] = H(&atoms[4],0.d);
 		atoms[6] = H(&atoms[4],120.d);
 
-		atoms[7] = CA(&atoms[4],240.d);	side_rotatory_atoms.push_back(&atoms[7]);	//CG
+		atoms[7] = CA(&atoms[4],240.d);	side_rotatory_atoms_1.push_back(&atoms[7]);	//CG
 		atoms[8] = H(&atoms[7],0.d);
 		atoms[9] = H(&atoms[7],120.d);
 
-		atoms[10] = CA(&atoms[7],240.d);	side_rotatory_atoms.push_back(&atoms[10]);	//CD
+		atoms[10] = CA(&atoms[7],240.d);	side_rotatory_atoms_1.push_back(&atoms[10]);	//CD
 		atoms[11] = H(&atoms[10],0.d);
 		atoms[12] = H(&atoms[10],120.d);
 
-		atoms[13] = N(&atoms[10],240.d); atoms[13].plane_def = &atoms[14]; side_rotatory_atoms.push_back(&atoms[13]);
+		atoms[13] = N(&atoms[10],240.d); atoms[13].plane_def = &atoms[14]; side_rotatory_atoms_1.push_back(&atoms[13]);
 		atoms[14] = H(&atoms[13],180.d);
 
 		atoms[15] = C(&atoms[13],0.d);	//CZ
@@ -933,7 +933,7 @@ class S3 : public Residue
 {
 public:
 
-	S3(){std::vector<Atom> dummy(11,Atom()); atoms = dummy;main_rotatory_bonds = 2;side_rotatory_bonds=1;resname = "SER";res1 = "S";}
+	S3(){std::vector<Atom> dummy(11,Atom()); atoms = dummy;main_rotatory_bonds = 2;side_rotatory_bonds_1=1;resname = "SER";res1 = "S";}
 	Residue* Spawn(){return new S3;}
 
 		Atom* GenAll(Atom * junction_atom)
@@ -943,7 +943,7 @@ public:
 		atoms[2] = CA(&atoms[0],0.d);	main_rotatory_atoms.push_back(&atoms[2]); // trans
 		atoms[3] = H(&atoms[2],180.d);
 
-		atoms[4] = CA(&atoms[2],300.d);	side_rotatory_atoms.push_back(&atoms[4]); //CB
+		atoms[4] = CA(&atoms[2],300.d);	side_rotatory_atoms_1.push_back(&atoms[4]); //CB
 		atoms[5] = H(&atoms[4],0.d);
 		atoms[6] = H(&atoms[4],120.d);
 		
@@ -975,7 +975,7 @@ class T3 : public Residue
 {
 public:
 
-	T3(){std::vector<Atom> dummy(14,Atom()); atoms = dummy;main_rotatory_bonds = 2;side_rotatory_bonds=1;resname = "THR";res1 = "T";}
+	T3(){std::vector<Atom> dummy(14,Atom()); atoms = dummy;main_rotatory_bonds = 2;side_rotatory_bonds_1=1;resname = "THR";res1 = "T";}
 	Residue* Spawn(){return new T3;}
 
 		Atom* GenAll(Atom * junction_atom)
@@ -985,7 +985,7 @@ public:
 		atoms[2] = CA(&atoms[0],0.d);	main_rotatory_atoms.push_back(&atoms[2]); // trans
 		atoms[3] = H(&atoms[2],180.d);
 
-		atoms[4] = CA(&atoms[2],300.d);	side_rotatory_atoms.push_back(&atoms[4]); //CB
+		atoms[4] = CA(&atoms[2],300.d);	side_rotatory_atoms_1.push_back(&atoms[4]); //CB
 		atoms[5] = H(&atoms[4],0.d);
 		
 		atoms[6] = O(&atoms[4],240.d);	//OG
@@ -1024,7 +1024,7 @@ class V3 : public Residue
 {
 public:
 
-	V3(){std::vector<Atom> dummy(16,Atom()); atoms = dummy;main_rotatory_bonds = 2;side_rotatory_bonds = 1;resname = "VAL";res1 = "V";}
+	V3(){std::vector<Atom> dummy(16,Atom()); atoms = dummy;main_rotatory_bonds = 2;side_rotatory_bonds_1 = 1;resname = "VAL";res1 = "V";}
 	Residue* Spawn(){return new V3;}
 
 	Atom* GenAll(Atom * junction_atom)
@@ -1034,7 +1034,7 @@ public:
 		atoms[2] = CA(&atoms[0],0.d);	main_rotatory_atoms.push_back(&atoms[2]); // trans
 		atoms[3] = H(&atoms[2],180.d);
 
-		atoms[4] = CA(&atoms[2],300.d);	side_rotatory_atoms.push_back(&atoms[4]);	//CB
+		atoms[4] = CA(&atoms[2],300.d);	side_rotatory_atoms_1.push_back(&atoms[4]);	//CB
 		atoms[5] = H(&atoms[4],0.d);
 
 		atoms[6] = CA(&atoms[4],120.d);	//CG1
@@ -1077,7 +1077,7 @@ class Y4 : public Residue
 {
 public:
 
-	Y4(){std::vector<Atom> dummy(21,Atom()); atoms = dummy;main_rotatory_bonds = 2;side_rotatory_bonds = 2;resname = "TYR";res1 = "Y";}
+	Y4(){std::vector<Atom> dummy(21,Atom()); atoms = dummy;main_rotatory_bonds = 2;side_rotatory_bonds_1 = 2;resname = "TYR";res1 = "Y";}
 	Residue* Spawn(){return new Y4;}
 
 	Atom* GenAll(Atom * junction_atom)
@@ -1087,13 +1087,13 @@ public:
 		atoms[2] = CA(&atoms[0],0.d);	main_rotatory_atoms.push_back(&atoms[2]); // trans
 		atoms[3] = H(&atoms[2],180.d);
 
-		atoms[4] = CA(&atoms[2],300.d);	side_rotatory_atoms.push_back(&atoms[4]);	//CB
+		atoms[4] = CA(&atoms[2],300.d);	side_rotatory_atoms_1.push_back(&atoms[4]);	//CB
 		atoms[5] = H(&atoms[4],0.d);
 		atoms[6] = H(&atoms[4],120.d);
 
 		//aromatic_plane.coordinates = atoms[5]-atoms[4] + atoms[6]-atoms[4];
 
-		atoms[7] = C(&atoms[4],240.d);	atoms[7].plane_def = atoms[7].parent;		side_rotatory_atoms.push_back(&atoms[7]);	//CG
+		atoms[7] = C(&atoms[4],240.d);	atoms[7].plane_def = atoms[7].parent;		side_rotatory_atoms_1.push_back(&atoms[7]);	//CG
 		atoms[8] = C(&atoms[7],0.d);		atoms[8].plane_def = atoms[8].parent;		//CD
 		atoms[9] = C(&atoms[7],180.d);	atoms[9].plane_def = atoms[9].parent;		//CD
 
@@ -1150,7 +1150,7 @@ class W4 : public Residue
 {
 public:
 
-	W4(){std::vector<Atom> dummy(24,Atom()); atoms = dummy;main_rotatory_bonds = 2; side_rotatory_bonds = 2;resname = "TRP";res1 = "W";}
+	W4(){std::vector<Atom> dummy(24,Atom()); atoms = dummy;main_rotatory_bonds = 2; side_rotatory_bonds_1 = 2;resname = "TRP";res1 = "W";}
 	Residue* Spawn(){return new W4;}
 
 	Atom* GenAll(Atom * junction_atom)
@@ -1160,11 +1160,11 @@ public:
 		atoms[2] = CA(&atoms[0],0.d);	main_rotatory_atoms.push_back(&atoms[2]); // trans
 		atoms[3] = H(&atoms[2],180.d);
 
-		atoms[4] = CA(&atoms[2],300.d);	side_rotatory_atoms.push_back(&atoms[4]);	//CB
+		atoms[4] = CA(&atoms[2],300.d);	side_rotatory_atoms_1.push_back(&atoms[4]);	//CB
 		atoms[5] = H(&atoms[4],0.d);
 		atoms[6] = H(&atoms[4],120.d);
 
-		atoms[7] = C(&atoms[4],240.d);	atoms[7].plane_def = atoms[7].parent;	atoms[7].angle = (126 * M_PI / 180.d);	side_rotatory_atoms.push_back(&atoms[7]);		//CG
+		atoms[7] = C(&atoms[4],240.d);	atoms[7].plane_def = atoms[7].parent;	atoms[7].angle = (126 * M_PI / 180.d);	side_rotatory_atoms_1.push_back(&atoms[7]);		//CG
 		atoms[8] = CR(&atoms[7],0.d); atoms[8].plane_def = atoms[8].parent; atoms[8].angle = (135 * M_PI / 180.d);		//CD1
 		atoms[9] = CR(&atoms[7],180.d);	atoms[9].plane_def = atoms[9].parent;	atoms[9].angle = (108 * M_PI / 180);		//CD2
 
@@ -1227,7 +1227,7 @@ class Ncap : public Residue
 {
 public:
 
-	Ncap(){std::vector<Atom> dummy(6,Atom()); atoms = dummy;main_rotatory_bonds = 0;side_rotatory_bonds = 0;resname = "NAP";res1 = "";}
+	Ncap(){std::vector<Atom> dummy(6,Atom()); atoms = dummy;main_rotatory_bonds = 0;side_rotatory_bonds_1 = 0;resname = "NAP";res1 = "";}
 	Residue* Spawn(){return new Ncap;}
 
 	Atom* GenAll(Atom * junction_atom)
